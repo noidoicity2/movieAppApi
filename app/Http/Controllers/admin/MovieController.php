@@ -53,9 +53,12 @@ class MovieController extends  Controller
     }
 
     #[ArrayShape(['img' => "string", 'url' => "string", 'bgImg' => "string"])] private function uploadMovieFile($request){
-        $moviePath = "/".Storage::putFileAs("videos/".Str::slug($request->title) ,$request->file('url'), $request->file('url')->getClientOriginalName());
-        $imagePath = "/".Storage::putFileAs("images/".Str::slug($request->title), $request->file('img'), $request->file('img')->getClientOriginalName());
-        $bgPath = "/".Storage::putFileAs("images/id".Str::slug($request->title), $request->file('img'), $request->file('img')->getClientOriginalName());
+//        $moviePath = "/".Storage::putFileAs("videos/".Str::slug($request->title) ,$request->file('url'), $request->file('url')->getClientOriginalName());
+//        $imagePath = "/".Storage::putFileAs("images/".Str::slug($request->title), $request->file('img'), $request->file('img')->getClientOriginalName());
+//        $bgPath = "/".Storage::putFileAs("images/id".Str::slug($request->title), $request->file('img'), $request->file('img')->getClientOriginalName());
+        $moviePath ="/". Storage::disk("public_uploads")->putFileAs("videos/".Str::slug($request->title) ,$request->file('url'), $request->file('url')->getClientOriginalName());
+        $imagePath = "/".Storage::disk("public_uploads")->putFileAs("images/".Str::slug($request->title), $request->file('img'), $request->file('img')->getClientOriginalName());
+        $bgPath = "/".Storage::disk("public_uploads")->putFileAs("images/bg/".Str::slug($request->title), $request->file('img'), $request->file('img')->getClientOriginalName());
 
         return [
             'img' =>$imagePath,
